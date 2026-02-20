@@ -1,16 +1,23 @@
-#include "mlx.h"
+#include "so_long.h"
+#define WIDTH 800
+#define HEIGHT 600
 
-int main(void)
+
+
+
+int32_t main(void)
 {
-    void    *mlx;
-    void    *win;
+    mlx_t* mlx;
 
-    mlx = mlx_init();
+    mlx = mlx_init(WIDTH, HEIGHT, "Test MLX42", true);
     if (!mlx)
-        return (1);
-    win = mlx_new_window(mlx, 800, 600, "MLX Test");
-    if (!win)
-        return (1);
+    {
+        puts(mlx_strerror(mlx_errno));
+        return (EXIT_FAILURE);
+    }
+
     mlx_loop(mlx);
-    return (0);
+
+    mlx_terminate(mlx);
+    return (EXIT_SUCCESS);
 }
