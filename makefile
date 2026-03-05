@@ -8,6 +8,8 @@ MLX = MLX42/build/libmlx42.a
 SRC = main.c \
       gnl/get_next_line.c \
       gnl/get_next_line_utils.c \
+			test.c \
+			libft.c
 
 
 OBJ = $(SRC:.c=.o)
