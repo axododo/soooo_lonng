@@ -12,7 +12,7 @@ int check_chars(t_map *map) {
 
     while (y < map->height) {
         x = 0;
-        while (x < map->width)  {
+        while (x < map->width - 1)  {
             if (y == 0 || y == map->height - 1
                 || x == 0 || x == map->width - 1) {
                 if (map->grid[y][x] != '1')
@@ -203,42 +203,26 @@ int check_path(t_map *map)
 }
 
 
-// int32_t main(int argc, char **argv)
-// {
-//     t_map *map;
-//     int    px;
-//     int    py;
-//
-//     if (argc != 2)
-//         return (write(2, "Error\n", 6), 1);
-//     map = load_map(argv[1]);
-//     if (!map)
-//         return (write(2, "Error\n", 6), 1);
-//     if (!check_chars(map))
-//         return (write(2, "Error\n", 6), 1);
-//     if (!find_player(map, &py, &px))
-//         return (write(2, "Error\n", 6), 1);
-//     printf("w = %d, h = %d\n", map->width, map->height);
-//     printf("player at %d, %d\n", py, px);
-//     if (!check_chars(map) || !check_path(map))
-//     return (write(2, "Error\n", 6), 1);
-//
-//     return (0);
-// }
+int32_t main(int argc, char **argv)
+{
+    t_map *map;
+    mlx_t* mlx;
+
+mlx = mlx_init(WIDTH, HEIGHT, "Test MLX42", true);
+if (!mlx)
+{
+    puts(mlx_strerror(mlx_errno));
+    return (EXIT_FAILURE);
+}
+
+mlx_loop(mlx);
+
+mlx_terminate(mlx);
+return (EXIT_SUCCESS);
+    return (0);
+}
 
 
 
 
-// mlx_t* mlx;
-//
-// mlx = mlx_init(WIDTH, HEIGHT, "Test MLX42", true);
-// if (!mlx)
-// {
-//     puts(mlx_strerror(mlx_errno));
-//     return (EXIT_FAILURE);
-// }
-//
-// mlx_loop(mlx);
-//
-// mlx_terminate(mlx);
-// return (EXIT_SUCCESS);
+

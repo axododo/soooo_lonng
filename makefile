@@ -1,20 +1,19 @@
 NAME = so_long
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g\
-         -I. -I./MLX42/include -I./gnl
+CFLAGS = -Werror -Wall -Wextra -g -I$(MLX)/includes -Ofast
 
-MLX = MLX42/build/libmlx42.a
+MLX = MLX42/libmlx.so
 
 SRC = main.c \
       gnl/get_next_line.c \
       gnl/get_next_line_utils.c \
-			test.c \
+			gui.c \
 			libft.c
 
 
 OBJ = $(SRC:.c=.o)
 
-LDFLAGS = -LMLX42/build -lmlx42 -lglfw -lm -ldl
+LDFLAGS = $(MLX) -lSDL2 -lm
 
 all: $(NAME)
 

@@ -41,15 +41,11 @@ int32_t main(int argc, char **argv)
         return (1);
     }
     printf("check_path: OK (all C reachable and exit reachable)\n");
-
-    // affichage brut de la map pour vérif visuelle
     int y = 0;
     while (y < map->height)
     {
         printf("%s", map->grid[y]);
         y++;
     }
-
-    // TODO: penser à free map->grid et map ici quand tu écriras ta fonction de free
     return (0);
 }
