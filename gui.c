@@ -30,4 +30,5 @@ int main(void)
     mlx_loop(mlx);
     mlx_destroy_window(mlx, win);
     mlx_destroy_context(mlx);
+    https://macrolibx.kbz8.me/guides/images/
 }
