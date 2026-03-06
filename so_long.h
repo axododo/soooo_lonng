@@ -1,3 +1,4 @@
+#include "MLX42/includes/mlx.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -9,6 +10,11 @@ typedef struct s_map {
   int width;
   int height;
 } t_map;
+
+typedef struct s_env {
+  mlx_context mlx;
+  mlx_window win;
+} t_env;
 
 size_t	ft_strlen(const char *str);
 char	*get_next_line(int fd);

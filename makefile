@@ -1,7 +1,7 @@
 NAME = so_long
 CC = cc
-CFLAGS = -Werror -Wall -Wextra -g -I$(MLX)/includes -Ofast
-
+CFLAGS =  -g -I$(MLX)/includes -Ofast
+# -Werror -Wall -Wextra
 MLX = MLX42/libmlx.so
 
 SRC = main.c \
