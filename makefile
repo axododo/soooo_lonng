@@ -1,36 +1,41 @@
 NAME = so_long
 CC = cc
 CFLAGS =  -g -I$(MLX)/includes -Ofast
-# -Werror -Wall -Wextra
-MLX = MLX42/libmlx.so
+MLX = MLX42/
+PRINTF_DIR = ./printft
+PRINTF = $(PRINTF_DIR)/libftprintf.a
 
 SRC = main.c \
       gnl/get_next_line.c \
       gnl/get_next_line_utils.c \
-			gui.c \
-			libft.c
-
+			test.c \
+			libft.c \
 
 OBJ = $(SRC:.c=.o)
 
-LDFLAGS = $(MLX) -lSDL2 -lm
+LDFLAGS = $(MLX)libmlx.so -lSDL2 -lm
 
-all: $(NAME)
+all: $(PRINTF) $(NAME)
 
-$(NAME): $(MLX) $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(MLX) $(LDFLAGS) -o $(NAME)
+$(NAME): $(MLX)libmlx.so $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) $(MLX)libmlx.so $(PRINTF) $(LDFLAGS) -o $(NAME)
 
 $(MLX):
 	@make -C MLX42
 
+$(PRINTF):
+	@make -C $(PRINTF_DIR)
+
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(PRINTF_DIR) -c $< -o $@
 
 clean:
 	rm -f $(OBJ)
+	@make clean -C $(PRINTF_DIR)
 
 fclean: clean
 	rm -f $(NAME)
+	@make fclean -C $(PRINTF_DIR)
 
 re: fclean all
 

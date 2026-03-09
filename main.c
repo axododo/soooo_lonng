@@ -1,17 +1,17 @@
 #include "so_long.h"
 
 
-#define WIDTH 800
-#define HEIGHT 600
+
 int check_chars(t_map *map) {
     int p = 0;
     int e = 0;
-    int c = 0;
     int y = 0;
     int x;
-
+    map->collectable = 0;
+    map->collected = 0;
     while (y < map->height) {
         x = 0;
+
         while (x < map->width - 1)  {
             if (y == 0 || y == map->height - 1
                 || x == 0 || x == map->width - 1) {
@@ -23,14 +23,14 @@ int check_chars(t_map *map) {
             else if (map->grid[y][x] == 'E')
                 e++;
             else if (map->grid[y][x] == 'C')
-                c++;
+                map->collectable++;
             else if (map->grid[y][x] != '0' && map->grid[y][x] != '1')
                 return (0);
             x++;
         }
         y++;
     }
-    if (p != 1 || e != 1 || c < 1)
+    if (p != 1 || e != 1 || map->collectable < 1)
         return (0);
     return (1);
 }
@@ -102,7 +102,7 @@ t_map *load_map(const char *path)
     return (map);
 }
 
-int find_player(t_map *map, int *py, int *px)
+int find_player(t_map *map)
 {
     int y = 0;
     int x;
@@ -114,15 +114,15 @@ int find_player(t_map *map, int *py, int *px)
         {
             if (map->grid[y][x] == 'P')
             {
-                *py = y;
-                *px = x;
-                return (1);
+                map->px = x;
+                map->py = y;
+                return 1;
             }
             x++;
         }
         y++;
     }
-    return (0);
+    return 0;
 }
 
 char **dup_grid(t_map *map) {
@@ -168,9 +168,9 @@ int check_path(t_map *map)
     tGrid = dup_grid(map);
     if (!tGrid)
         return (0);
-    if (!find_player(map, &py, &px))
+    if (!find_player(map))
         return (0);
-    flood(tGrid, py, px, map->height, map->width);
+    flood(tGrid, map->py, map->px, map->height, map->width);
 
     ok_exit = 0;
     y = 0;
