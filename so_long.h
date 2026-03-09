@@ -14,6 +14,8 @@ typedef struct s_map {
   int collectable;
   int px;
   int py;
+  int ex;
+  int ey;
 } t_map;
 
 typedef struct s_env {

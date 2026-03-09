@@ -1,3 +1,4 @@
+#include "MLX42/includes/mlx.h"
 #include "so_long.h"
 
 
@@ -66,21 +67,21 @@ void init_image(t_env *env) {
     }
 }
 
-void findE(t_env *env)  {
-  int y = 0;
-  int x;
-  while (y < env->map->height)
-  {
-      x = 0;
-      while (x < env->map->width)
-      {
-        if(env->map->grid[y][x] == 'E')
-          env->map->grid[y][x] = 'X';
-        x++;
-      }
-    y++;
-  }
-}
+// void findE(t_env *env)  {
+//   int y = 0;
+//   int x;
+//   while (y < env->map->height)
+//   {
+//       x = 0;
+//       while (x < env->map->width)
+//       {
+//         if(env->map->grid[y][x] == 'E')
+//           env->map->grid[y][x] = 'X';
+//         x++;
+//       }
+//     y++;
+//   }
+// }
 
 void win(t_env *env)  {
   int win_w = env->map->width * env->tile_w;
@@ -104,8 +105,9 @@ void move(t_env *env, int x, int y){
       {
         env->map->collected++;
         if (env->map->collected == env->map->collectable)
-          findE(env);
+          env->map->grid[env->map->ey][env->map->ex] = 'X';
     }
+    
     if (env->map->grid[y][x] == 'X')  {
         win(env);
       return;
@@ -120,21 +122,14 @@ void move(t_env *env, int x, int y){
   }
 }
 
-void key_hook(int key, void *param)
-{
-    t_env *env;
 
-    env = (t_env *)param;
-    if (key == 41)
-    {
-      mlx_destroy_window(env->mlx, env->win);
-      mlx_destroy_context(env->mlx);
-      exit(0);
-    }
-    if (key == 26 && env->stWin == 0) move(env, 0, -1);
-    if (key == 22 && env->stWin == 0)  move(env, 0, 1);
-    if (key == 7 && env->stWin == 0) move(env, 1, 0);
-    if (key == 4 && env->stWin == 0)  move(env, -1, 0);
+void clean(t_env *env){
+  mlx_destroy_image(env->mlx, env->img_collect);
+  mlx_destroy_image(env->mlx, env->img_exit);
+  mlx_destroy_image(env->mlx, env->img_floor);
+  mlx_destroy_image(env->mlx, env->img_player);
+  mlx_destroy_image(env->mlx, env->img_wall);
+  mlx_destroy_image(env->mlx, env->img_win);
 }
 
 void free_map(t_map *map)
@@ -146,6 +141,38 @@ void free_map(t_map *map)
         free(map->grid[y++]);
     free(map->grid);
     free(map);
+}
+
+void key_hook(int key, void *param)
+{
+    t_env *env;
+
+    env = (t_env *)param;
+    if (key == 41)
+    {
+      free_map(env->map);
+      clean(env);
+      mlx_destroy_window(env->mlx, env->win);
+      mlx_destroy_context(env->mlx);
+      exit(0);
+    }
+    if (key == 26 && env->stWin == 0) move(env, 0, -1);
+    if (key == 22 && env->stWin == 0)  move(env, 0, 1);
+    if (key == 7 && env->stWin == 0) move(env, 1, 0);
+    if (key == 4 && env->stWin == 0)  move(env, -1, 0);
+}
+
+
+
+void window_hook(int event, void *param) {
+  t_env env;
+  if(event == 0) {
+    free_map(env.map);
+    clean(&env);
+    mlx_destroy_window(env.mlx, env.win);
+    mlx_destroy_context(env.mlx);
+    exit(0);
+  }
 }
 
 
@@ -195,9 +222,10 @@ int32_t main(int argc, char **argv)
     }
     render_map(&env);
     mlx_on_event(env.mlx, env.win, MLX_KEYDOWN, key_hook, &env);
+    mlx_on_event(env.mlx, env.win, MLX_WINDOW_EVENT, window_hook, &env);
     mlx_loop(env.mlx);
     free_map(env.map);
-
+    clean(&env);
     mlx_destroy_window(env.mlx, env.win);
     mlx_destroy_context(env.mlx);
     return (0);

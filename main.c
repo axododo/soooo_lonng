@@ -20,8 +20,11 @@ int check_chars(t_map *map) {
             }
             if (map->grid[y][x] == 'P')
                 p++;
-            else if (map->grid[y][x] == 'E')
+            else if (map->grid[y][x] == 'E') {
                 e++;
+                map->ex = x;
+                map->ey = y;
+            }
             else if (map->grid[y][x] == 'C')
                 map->collectable++;
             else if (map->grid[y][x] != '0' && map->grid[y][x] != '1')
