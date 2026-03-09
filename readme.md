@@ -1,3 +1,9 @@
 ## to do list _>
-#	dup map->grid
-#	pathfinding 
+#
+
+croix fenetre
+cleanup memoire
+t_env zero ?
+flag makefile
+gestion erreur
+readme 
