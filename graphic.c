@@ -2,10 +2,10 @@
 #include "so_long.h"
 
 
-void	init_image(t_env *env)
+int	init_image(t_env *env)
 {
-  int	w;
-  int	h;
+  int	w = 16;
+  int	h = 16;
 
 	env->tile_w = w;
 	env->tile_h = h;
@@ -14,7 +14,7 @@ void	init_image(t_env *env)
 	if (!env->img_wall)
 	{
 		write(2, "Error: cannot load wall.png\n", 28);
-		return ;
+		return (0);
 	}
 	env->tile_w = w;
 	env->tile_h = h;
@@ -23,36 +23,37 @@ void	init_image(t_env *env)
 	if (!env->img_floor)
 	{
 		write(2, "Error: cannot load floor.png\n", 28);
-		return ;
+		return (0);
 	}
 	env->img_collect = mlx_new_image_from_file(env->mlx, "textures/collect.png",
 			&w, &h);
 	if (!env->img_collect)
 	{
 		write(2, "Error: cannot load collect.png\n", 28);
-		return ;
+		return (0);
 	}
 	env->img_exit = mlx_new_image_from_file(env->mlx, "textures/exit.png", &w,
 			&h);
 	if (!env->img_exit)
 	{
 		write(2, "Error: cannot load exit.png\n", 28);
-		return ;
+		return (0);
 	}
 	env->img_player = mlx_new_image_from_file(env->mlx, "textures/player.png",
 			&w, &h);
 	if (!env->img_player)
 	{
 		write(2, "Error: cannot load player.png\n", 28);
-		return ;
+		return (0);
 	}
 	env->img_win = mlx_new_image_from_file(env->mlx, "textures/win.png", &w,
 			&h);
 	if (!env->img_win)
 	{
 		write(2, "Error: cannot load win.png\n", 28);
-		return ;
+		return (0);
 	}
+	return (1);
 }
 
 void	render_map(t_env *env)
@@ -95,7 +96,7 @@ void	render_map(t_env *env)
 }
 
 
-void	window_hook(int event/*, void *param*/)
+void	window_hook(int event, void *param)
 {
 	t_env	env;
 

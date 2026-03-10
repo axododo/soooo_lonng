@@ -86,50 +86,76 @@ void	key_hook(int key, void *param)
 		move(env, -1, 0);
 }
 
+
+int init_map(t_env *env)	{
+	if (!env->map)
+	{
+		free_map(env->map);
+		return (write(2, "Error: load_map\n", 16), 0);
+	}
+	if (!check_chars(env->map))
+	{
+		free_map(env->map);
+		return (write(2, "Error: invalid map\n", 20), 0);
+	}
+	if (!check_path(env->map))
+	{
+		free_map(env->map);
+		return (write(2, "Error: no valid path\n", 21), 0);
+	}
+	if (!find_player(env->map)) {
+		return (write(2, "Error: can't find player", 24), 0);
+	}
+	return (1);
+}
+
+int init_window(t_env *env, mlx_window_create_info *info)	{
+	env->win = mlx_new_window(env->mlx, info);
+	if (!env->win)
+	{
+		mlx_destroy_context(env->mlx);
+		return (write(2, "Error: mlx_new_window\n", 22), 1);
+	}
+	render_map(env);
+	mlx_on_event(env->mlx, env->win, MLX_KEYDOWN, key_hook, &env);
+	mlx_on_event(env->mlx, env->win, MLX_WINDOW_EVENT, window_hook, &env);
+	mlx_loop(env->mlx);
+	free_map(env->map);
+	clean(env);
+	mlx_destroy_window(env->mlx, env->win);
+	mlx_destroy_context(env->mlx);
+	return (0);
+}
+
 int32_t	main(int argc, char **argv)
 {
 	t_env					env;
 	mlx_window_create_info	info;
 
+		
 	env.stWin = 0;
 	env.move = 0;
 	env.map = load_map(argv[1]);
-	if (!env.map)
-	{
-		free_map(env.map);
-		return (write(2, "Error: load_map\n", 16), 1);
+
+	if (!init_map(&env)) {
+		return(1);
 	}
-	if (!check_chars(env.map))
-	{
-		free_map(env.map);
-		return (write(2, "Error: invalid map\n", 20), 1);
-	}
-	if (!check_path(env.map))
-	{
-		free_map(env.map);
-		return (write(2, "Error: no valid path\n", 21), 1);
-	}
-	find_player(env.map);
+
+
 	env.mlx = mlx_init();
 	if (!env.mlx)
 		return (write(2, "Error: mlx_init\n", 16), 1);
-	init_image(&env);
+	if (!init_image(&env)) {
+		return (1);
+	}
+
 	info.title = "so_long";
 	info.width = env.map->width * env.tile_w;
 	info.height = env.map->height * env.tile_h;
-	env.win = mlx_new_window(env.mlx, &info);
-	if (!env.win)
-	{
-		mlx_destroy_context(env.mlx);
-		return (write(2, "Error: mlx_new_window\n", 22), 1);
+	info.is_resizable = 1;
+	info.is_fullscreen = 0;
+	if (init_window(&env, &info)) {
+		return(1);
 	}
-	render_map(&env);
-	mlx_on_event(env.mlx, env.win, MLX_KEYDOWN, key_hook, &env);
-	mlx_on_event(env.mlx, env.win, MLX_WINDOW_EVENT, window_hook, &env);
-	mlx_loop(env.mlx);
-	free_map(env.map);
-	clean(&env);
-	mlx_destroy_window(env.mlx, env.win);
-	mlx_destroy_context(env.mlx);
 	return (0);
 }
