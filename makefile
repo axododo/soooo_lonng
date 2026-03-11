@@ -1,6 +1,6 @@
 NAME = so_long
 CC = cc
-CFLAGS =  -g -I$(MLX)/includes 
+CFLAGS =  -g -I$(MLX)/includes
 MLX = MLX42/
 PRINTF_DIR = ./printft
 PRINTF = $(PRINTF_DIR)/libftprintf.a
@@ -11,7 +11,8 @@ SRC = map2.c \
       gnl/get_next_line_utils.c \
 			libft.c \
 			graphic.c \
-			main.c
+			main.c \
+			utils.c
 
 OBJ = $(SRC:.c=.o)
 

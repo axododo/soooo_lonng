@@ -1,67 +1,4 @@
-#include "MLX42/includes/mlx.h"
 #include "so_long.h"
-
-void	win(t_env *env)
-{
-	int	win_w;
-	int	win_h;
-	int	img_w;
-	int	img_h;
-
-	win_w = env->map->width * env->tile_w;
-	win_h = env->map->height * env->tile_h;
-	img_w = 480;
-	img_h = 320;
-	env->stWin = 1;
-	mlx_clear_window(env->mlx, env->win, (mlx_color){.rgba = 0x000000FF});
-	mlx_put_image_to_window(env->mlx, env->win, env->img_win, (win_w - img_w)
-			/ 2, (win_h - img_h) / 2);
-}
-
-void	move(t_env *env, int x, int y)
-{
-	int	i;
-	int	j;
-
-	i = env->map->px;
-	j = env->map->py;
-	x = x + i;
-	y = y + j;
-	if (env->map->grid[y][x] != '1')
-	{
-		if (env->map->grid[y][x] == 'C')
-		{
-			env->map->collected++;
-			if (env->map->collected == env->map->collectable)
-				env->map->grid[env->map->ey][env->map->ex] = 'X';
-		}
-		if (env->map->grid[y][x] == 'X')
-		{
-			win(env);
-			return ;
-		}
-		env->map->grid[y][x] = 'P';
-		env->map->grid[j][i] = '0';
-		env->map->py = y;
-		env->map->px = x;
-		env->move++;
-		ft_printf("move: %i\n", env->move);
-		render_map(env);
-	}
-}
-
-void	free_map(t_map *map)
-{
-	int	y;
-
-	y = 0;
-	if (!map)
-		return ;
-	while (y < map->height)
-		free(map->grid[y++]);
-	free(map->grid);
-	free(map);
-}
 
 void	key_hook(int key, void *param)
 {
@@ -76,49 +13,52 @@ void	key_hook(int key, void *param)
 		mlx_destroy_context(env->mlx);
 		exit(0);
 	}
-	if (key == 26 && env->stWin == 0)
-		move(env, 0, -1);
-	if (key == 22 && env->stWin == 0)
-		move(env, 0, 1);
-	if (key == 7 && env->stWin == 0)
-		move(env, 1, 0);
-	if (key == 4 && env->stWin == 0)
-		move(env, -1, 0);
+	if (key == 26 && env->stwin == 0)
+		move_player(env, 0, -1);
+	if (key == 22 && env->stwin == 0)
+		move_player(env, 0, 1);
+	if (key == 7 && env->stwin == 0)
+		move_player(env, 1, 0);
+	if (key == 4 && env->stwin == 0)
+		move_player(env, -1, 0);
 }
 
-
-int init_map(t_env *env)	{
+static int	init_map(t_env *env, const char *path)
+{
+	if (!check_extension(path))
+		return (write(2, "Error\nMap must have .ber extension\n", 35), 0);
+	env->map = load_map(path);
 	if (!env->map)
-	{
-		free_map(env->map);
-		return (write(2, "Error: load_map\n", 16), 0);
-	}
+		return (write(2, "Error\nCannot load map\n", 22), 0);
 	if (!check_chars(env->map))
 	{
 		free_map(env->map);
-		return (write(2, "Error: invalid map\n", 20), 0);
+		return (write(2, "Error\nInvalid map characters or borders\n", 40), 0);
 	}
 	if (!check_path(env->map))
 	{
 		free_map(env->map);
-		return (write(2, "Error: no valid path\n", 21), 0);
+		return (write(2, "Error\nNo valid path in map\n", 27), 0);
 	}
-	if (!find_player(env->map)) {
-		return (write(2, "Error: can't find player", 24), 0);
+	if (!find_player(env->map))
+	{
+		free_map(env->map);
+		return (write(2, "Error\nCannot find player\n", 25), 0);
 	}
 	return (1);
 }
 
-int init_window(t_env *env, mlx_window_create_info *info)	{
+static int	init_window(t_env *env, mlx_window_create_info *info)
+{
 	env->win = mlx_new_window(env->mlx, info);
 	if (!env->win)
 	{
 		mlx_destroy_context(env->mlx);
-		return (write(2, "Error: mlx_new_window\n", 22), 1);
+		return (write(2, "Error\nmlx_new_window failed\n", 28), 1);
 	}
 	render_map(env);
-	mlx_on_event(env->mlx, env->win, MLX_KEYDOWN, key_hook, &env);
-	mlx_on_event(env->mlx, env->win, MLX_WINDOW_EVENT, window_hook, &env);
+	mlx_on_event(env->mlx, env->win, MLX_KEYDOWN, key_hook, env);
+	mlx_on_event(env->mlx, env->win, MLX_WINDOW_EVENT, window_hook, env);
 	mlx_loop(env->mlx);
 	free_map(env->map);
 	clean(env);
@@ -132,30 +72,23 @@ int32_t	main(int argc, char **argv)
 	t_env					env;
 	mlx_window_create_info	info;
 
-		
-	env.stWin = 0;
+	if (argc != 2)
+		return (write(2, "Error\nUsage: ./so_long <map.ber>\n", 33), 1);
+	env.stwin = 0;
 	env.move = 0;
-	env.map = load_map(argv[1]);
-
-	if (!init_map(&env)) {
-		return(1);
-	}
-
-
+	if (!init_map(&env, argv[1]))
+		return (1);
 	env.mlx = mlx_init();
 	if (!env.mlx)
-		return (write(2, "Error: mlx_init\n", 16), 1);
-	if (!init_image(&env)) {
+		return (write(2, "Error\nmlx_init failed\n", 22), 1);
+	if (!init_image(&env))
 		return (1);
-	}
-
 	info.title = "so_long";
 	info.width = env.map->width * env.tile_w;
 	info.height = env.map->height * env.tile_h;
 	info.is_resizable = 1;
 	info.is_fullscreen = 0;
-	if (init_window(&env, &info)) {
-		return(1);
-	}
+	if (init_window(&env, &info))
+		return (1);
 	return (0);
 }

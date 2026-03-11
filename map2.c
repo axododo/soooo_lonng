@@ -1,6 +1,5 @@
 #include "so_long.h"
 
-
 int	find_player(t_map *map)
 {
 	int	y;
@@ -32,6 +31,8 @@ char	**dup_grid(t_map *map)
 
 	y = 0;
 	copy = malloc(sizeof(char *) * map->height);
+	if (!copy)
+		return (NULL);
 	while (y < map->height)
 	{
 		copy[y] = ft_strdup(map->grid[y]);
@@ -60,20 +61,30 @@ void	flood(char **grid, int y, int x, int height, int width)
 	flood(grid, y, x + 1, height, width);
 }
 
+static int	free_tgrid(char **tgrid, int height)
+{
+	int	y;
+
+	y = 0;
+	while (y < height)
+		free(tgrid[y++]);
+	free(tgrid);
+	return (0);
+}
+
 int	check_path(t_map *map)
 {
 	int		x;
 	int		y;
 	int		ok_exit;
-	char	**tGrid;
-	int		yy;
+	char	**tgrid;
 
-	tGrid = dup_grid(map);
-	if (!tGrid)
+	tgrid = dup_grid(map);
+	if (!tgrid)
 		return (0);
 	if (!find_player(map))
-		return (0);
-	flood(tGrid, map->py, map->px, map->height, map->width);
+		return (free_tgrid(tgrid, map->height));
+	flood(tgrid, map->py, map->px, map->height, map->width);
 	ok_exit = 0;
 	y = 0;
 	while (y < map->height)
@@ -81,24 +92,15 @@ int	check_path(t_map *map)
 		x = 0;
 		while (x < map->width)
 		{
-			if (tGrid[y][x] == 'C')
-			{
-				yy = 0;
-				while (yy < map->height)
-					free(tGrid[yy++]);
-				free(tGrid);
-				return (0);
-			}
-			if (map->grid[y][x] == 'E' && tGrid[y][x] == 'V')
+			if (tgrid[y][x] == 'C')
+				return (free_tgrid(tgrid, map->height));
+			if (map->grid[y][x] == 'E' && tgrid[y][x] == 'V')
 				ok_exit = 1;
 			x++;
 		}
 		y++;
 	}
-	y = 0;
-	while (y < map->height)
-		free(tGrid[y++]);
-	free(tGrid);
+	free_tgrid(tgrid, map->height);
 	if (!ok_exit)
 		return (0);
 	return (1);

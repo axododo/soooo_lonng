@@ -1,9 +1,11 @@
-#include "MLX42/includes/mlx.h"
-#include "printft/ft_printf.h"
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
+#ifndef SO_LONG_H
+# define SO_LONG_H
+
+# include "MLX42/includes/mlx.h"
+# include "printft/ft_printf.h"
+# include <fcntl.h>
+# include <stdlib.h>
+# include <unistd.h>
 
 typedef struct s_map
 {
@@ -32,26 +34,32 @@ typedef struct s_env
 	mlx_image	img_exit;
 	mlx_image	img_player;
 	mlx_image	img_win;
-	int			stWin;
+	int			stwin;
 	int			move;
 }				t_env;
 
-int	check_chars(t_map *map);
-int	count_map(const char *path, int *height, int *width);
-t_map	*load_map(const char *path);
-int	find_player(t_map *map);
-char	**dup_grid(t_map *map);
-void	flood(char **grid, int y, int x, int height, int width);
-int	check_path(t_map *map);
-int	init_image(t_env *env);
-void	render_map(t_env *env);
-void	window_hook(int event, void *param);
-void	clean(t_env *env);
-void	win(t_env *env);
-void	move(t_env *env, int x, int y);
-void	free_map(t_map *map);
-void	key_hook(int key, void *param);
+int				check_chars(t_map *map);
+int				count_map(const char *path, int *height, int *width);
+t_map			*load_map(const char *path);
+int				find_player(t_map *map);
+char			**dup_grid(t_map *map);
+void			flood(char **grid, int y, int x, int height, int width);
+int				check_path(t_map *map);
+int				init_image(t_env *env);
+void			render_map(t_env *env);
+void			window_hook(int event, void *param);
+void			clean(t_env *env);
+void			win_screen(t_env *env);
+void			move_player(t_env *env, int x, int y);
+void			free_map(t_map *map);
+void			key_hook(int key, void *param);
+int				check_extension(const char *path);
+int				check_rect(const char *path, int width);
+int				fill_grid(t_map *map, int fd);
 
 char			*get_next_line(int fd);
 size_t			ft_strlen(const char *str);
 char			*ft_strdup(const char *src);
+int				ft_strncmp(const char *s1, const char *s2, size_t n);
+
+#endif

@@ -1,7 +1,24 @@
-
 #include "so_long.h"
 
+static size_t	ft_sstrlen(const char *str)
+{
+	int	i;
 
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+int	check_extension(const char *path)
+{
+	int	len;
+
+	len = ft_strlen(path);
+	if (len < 4)
+		return (0);
+	return (ft_strncmp(path + len - 4, ".ber", 4) == 0);
+}
 
 int	check_chars(t_map *map)
 {
@@ -21,10 +38,8 @@ int	check_chars(t_map *map)
 		while (x < map->width - 1)
 		{
 			if (y == 0 || y == map->height - 1 || x == 0 || x == map->width - 1)
-			{
 				if (map->grid[y][x] != '1')
 					return (0);
-			}
 			if (map->grid[y][x] == 'P')
 				p++;
 			else if (map->grid[y][x] == 'E')
@@ -46,17 +61,26 @@ int	check_chars(t_map *map)
 	return (1);
 }
 
-
-static size_t	ft_sstrlen(const char *str)
+int	check_rect(const char *path, int width)
 {
-	int	i;
+	char	*line;
+	int		fd;
+	int		ok;
 
-	i = 0;
-	while (str[i])
+	fd = open(path, O_RDONLY);
+	if (fd == -1)
+		return (0);
+	ok = 1;
+	line = get_next_line(fd);
+	while (line)
 	{
-		i++;
+		if ((int)ft_sstrlen(line) != width)
+			ok = 0;
+		free(line);
+		line = get_next_line(fd);
 	}
-	return (i);
+	close(fd);
+	return (ok);
 }
 
 int	count_map(const char *path, int *height, int *width)
@@ -70,6 +94,8 @@ int	count_map(const char *path, int *height, int *width)
 	if (fd == -1)
 		return (0);
 	line = get_next_line(fd);
+	if (!line)
+		return (close(fd), 0);
 	*width = ft_sstrlen(line);
 	while (line)
 	{
@@ -81,16 +107,32 @@ int	count_map(const char *path, int *height, int *width)
 	return (1);
 }
 
+int	fill_grid(t_map *map, int fd)
+{
+	char	*line;
+	int		i;
+
+	i = 0;
+	line = get_next_line(fd);
+	while (line && i < map->height)
+	{
+		map->grid[i] = line;
+		i++;
+		line = get_next_line(fd);
+	}
+	return (1);
+}
+
 t_map	*load_map(const char *path)
 {
 	int		height;
 	int		width;
-	int		i;
 	int		fd;
-	char	*line;
 	t_map	*map;
 
 	if (!count_map(path, &height, &width))
+		return (NULL);
+	if (!check_rect(path, width))
 		return (NULL);
 	map = malloc(sizeof(t_map));
 	if (!map)
@@ -103,14 +145,7 @@ t_map	*load_map(const char *path)
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 		return (free(map->grid), free(map), NULL);
-	i = 0;
-	line = get_next_line(fd);
-	while (line && i < map->height)
-	{
-		map->grid[i] = line;
-		i++;
-		line = get_next_line(fd);
-	}
+	fill_grid(map, fd);
 	close(fd);
 	return (map);
 }
