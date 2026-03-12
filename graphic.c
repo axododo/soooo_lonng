@@ -3,9 +3,7 @@
 static int	init_image_walls(t_env *env, int *w, int *h)
 {
 	env->img_wall = mlx_new_image_from_file(env->mlx,
-											"textures/wall.png",
-											w,
-											h);
+		"textures/wall.png", w, h);
 	if (!env->img_wall)
 		return (write(2, "Error\nCannot load wall.png\n", 27), 0);
 	env->img_floor = mlx_new_image_from_file(env->mlx,
