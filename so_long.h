@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mguilber <mguilber@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/22 11:48:49 by mguilber          #+#    #+#             */
+/*   Updated: 2026/03/22 13:08:36 by mguilber         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
@@ -56,8 +68,10 @@ void			key_hook(int key, void *param);
 int				check_extension(const char *path);
 int				check_rect(const char *path, int width);
 int				fill_grid(t_map *map, int fd);
-void 			put_image(char c, t_env *env, int x, int y);
-size_t		ft_sstrlen(const char *str);
+int				verif_flood(t_map *map, char **tgrid);
+int				free_tgrid(char **tgrid, int height);
+void			put_image(char c, t_env *env, int x, int y);
+size_t			ft_sstrlen(const char *str);
 char			*get_next_line(int fd);
 size_t			ft_strlen(const char *str);
 char			*ft_strdup(const char *src);

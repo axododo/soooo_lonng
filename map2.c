@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map2.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mguilber <mguilber@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/22 11:48:36 by mguilber          #+#    #+#             */
+/*   Updated: 2026/03/22 12:30:54 by mguilber         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 int	find_player(t_map *map)
@@ -62,7 +74,7 @@ void	flood(char **grid, int y, int x, t_map *map)
 	flood(grid, y, x + 1, map);
 }
 
-static int	free_tgrid(char **tgrid, int height)
+int	free_tgrid(char **tgrid, int height)
 {
 	int	y;
 
@@ -77,7 +89,7 @@ int	check_path(t_map *map)
 {
 	int		x;
 	int		y;
-	int		ok_exit;
+	int		ok;
 	char	**tgrid;
 
 	tgrid = dup_grid(map);
@@ -86,23 +98,11 @@ int	check_path(t_map *map)
 	if (!find_player(map))
 		return (free_tgrid(tgrid, map->height));
 	flood(tgrid, map->py, map->px, map);
-	ok_exit = 0;
+	ok = 0;
 	y = 0;
-	while (y < map->height)
-	{
-		x = 0;
-		while (x < map->width)
-		{
-			if (tgrid[y][x] == 'C')
-				return (free_tgrid(tgrid, map->height));
-			if (map->grid[y][x] == 'E' && tgrid[y][x] == 'V')
-				ok_exit = 1;
-			x++;
-		}
-		y++;
-	}
-	free_tgrid(tgrid, map->height);
-	if (!ok_exit)
+	ok = verif_flood(map, tgrid);
+	if (!ok)
 		return (0);
+	free_tgrid(tgrid, map->height);
 	return (1);
 }

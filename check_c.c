@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_c.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mguilber <mguilber@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/22 11:47:57 by mguilber          #+#    #+#             */
+/*   Updated: 2026/03/22 13:03:56 by mguilber         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 int	verif_w(int y, int x, t_map *map)
@@ -48,4 +60,29 @@ int	check_chars(t_map *map)
 	if (verif != 2 || map->collectable < 1)
 		return (0);
 	return (1);
+}
+
+int	verif_flood(t_map *map, char **tgrid)
+{
+	int	x;
+	int	y;
+	int	ok_exit;
+
+	ok_exit = 0;
+	while (y < map->height)
+	{
+		x = 0;
+		while (x < map->width)
+		{
+			if (tgrid[y][x] == 'C')
+				return (free_tgrid(tgrid, map->height));
+			if (map->grid[y][x] == 'E' && tgrid[y][x] == 'V')
+				ok_exit = 1;
+			x++;
+		}
+		y++;
+	}
+	if (ok_exit == 1)
+		return (1);
+	return (0);
 }

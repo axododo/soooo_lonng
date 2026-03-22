@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mguilber <mguilber@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/22 11:48:57 by mguilber          #+#    #+#             */
+/*   Updated: 2026/03/22 13:07:44 by mguilber         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 void	win_screen(t_env *env)
@@ -32,13 +44,8 @@ void	free_map(t_map *map)
 
 void	move_player(t_env *env, int x, int y)
 {
-	int	i;
-	int	j;
-
-	i = env->map->px;
-	j = env->map->py;
-	x = x + i;
-	y = y + j;
+	x = x + env->map->px;
+	y = y + env->map->py;
 	if (env->map->grid[y][x] == '1')
 		return ;
 	if (env->map->grid[y][x] == 'C')
@@ -53,7 +60,7 @@ void	move_player(t_env *env, int x, int y)
 		return ;
 	}
 	env->map->grid[y][x] = 'P';
-	env->map->grid[j][i] = '0';
+	env->map->grid[env->map->py][env->map->px] = '0';
 	env->map->py = y;
 	env->map->px = x;
 	env->move++;
