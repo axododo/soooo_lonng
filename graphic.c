@@ -3,13 +3,11 @@
 static int	init_image_walls(t_env *env, int *w, int *h)
 {
 	env->img_wall = mlx_new_image_from_file(env->mlx,
-		"textures/wall.png", w, h);
+			"textures/wall.png", w, h);
 	if (!env->img_wall)
 		return (write(2, "Error\nCannot load wall.png\n", 27), 0);
 	env->img_floor = mlx_new_image_from_file(env->mlx,
-												"textures/floor.png",
-												w,
-												h);
+			"textures/floor.png", w, h);
 	if (!env->img_floor)
 		return (write(2, "Error\nCannot load floor.png\n", 28), 0);
 	return (1);
@@ -18,27 +16,19 @@ static int	init_image_walls(t_env *env, int *w, int *h)
 static int	init_image_chars(t_env *env, int *w, int *h)
 {
 	env->img_collect = mlx_new_image_from_file(env->mlx,
-												"textures/collect.png",
-												w,
-												h);
+			"textures/collect.png", w, h);
 	if (!env->img_collect)
 		return (write(2, "Error\nCannot load collect.png\n", 30), 0);
 	env->img_exit = mlx_new_image_from_file(env->mlx,
-											"textures/exit.png",
-											w,
-											h);
+			"textures/exit.png", w, h);
 	if (!env->img_exit)
 		return (write(2, "Error\nCannot load exit.png\n", 27), 0);
 	env->img_player = mlx_new_image_from_file(env->mlx,
-												"textures/player.png",
-												w,
-												h);
+			"textures/player.png", w, h);
 	if (!env->img_player)
 		return (write(2, "Error\nCannot load player.png\n", 29), 0);
 	env->img_win = mlx_new_image_from_file(env->mlx,
-											"textures/win.png",
-											w,
-											h);
+			"textures/win.png", w, h);
 	if (!env->img_win)
 		return (write(2, "Error\nCannot load win.png\n", 26), 0);
 	return (1);
@@ -60,41 +50,6 @@ int	init_image(t_env *env)
 	if (!init_image_chars(env, &w, &h))
 		return (0);
 	return (1);
-}
-
-void	render_map(t_env *env)
-{
-	int		y;
-	int		x;
-	char	c;
-
-	mlx_clear_window(env->mlx, env->win, (mlx_color){.rgba = 0xC16868FF});
-	y = 0;
-	while (y < env->map->height)
-	{
-		x = 0;
-		while (x < env->map->width)
-		{
-			c = env->map->grid[y][x];
-			if (c == 'P')
-				mlx_put_image_to_window(env->mlx, env->win, env->img_player, x
-						* env->tile_w, y * env->tile_h);
-			else if (c == 'X')
-				mlx_put_image_to_window(env->mlx, env->win, env->img_exit, x
-						* env->tile_w, y * env->tile_h);
-			else if (c == 'C')
-				mlx_put_image_to_window(env->mlx, env->win, env->img_collect, x
-						* env->tile_w, y * env->tile_h);
-			else if (c == '1')
-				mlx_put_image_to_window(env->mlx, env->win, env->img_wall, x
-						* env->tile_w, y * env->tile_h);
-			else if (c == '0' || c == 'E')
-				mlx_put_image_to_window(env->mlx, env->win, env->img_floor, x
-						* env->tile_w, y * env->tile_h);
-			x++;
-		}
-		y++;
-	}
 }
 
 void	window_hook(int event, void *param)

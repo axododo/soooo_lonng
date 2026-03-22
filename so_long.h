@@ -43,7 +43,7 @@ int				count_map(const char *path, int *height, int *width);
 t_map			*load_map(const char *path);
 int				find_player(t_map *map);
 char			**dup_grid(t_map *map);
-void			flood(char **grid, int y, int x, int height, int width);
+void			flood(char **grid, int y, int x, t_map *map);
 int				check_path(t_map *map);
 int				init_image(t_env *env);
 void			render_map(t_env *env);
@@ -56,7 +56,8 @@ void			key_hook(int key, void *param);
 int				check_extension(const char *path);
 int				check_rect(const char *path, int width);
 int				fill_grid(t_map *map, int fd);
-
+void 			put_image(char c, t_env *env, int x, int y);
+size_t		ft_sstrlen(const char *str);
 char			*get_next_line(int fd);
 size_t			ft_strlen(const char *str);
 char			*ft_strdup(const char *src);

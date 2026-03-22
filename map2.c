@@ -48,17 +48,18 @@ char	**dup_grid(t_map *map)
 	return (copy);
 }
 
-void	flood(char **grid, int y, int x, int height, int width)
+void	flood(char **grid, int y, int x, t_map *map)
 {
-	if (y < 0 || y >= height || x < 0 || x >= width)
+	if (y < 0 || y >= map->height || x < 0
+		|| x >= map->width)
 		return ;
 	if (grid[y][x] == '1' || grid[y][x] == 'V')
 		return ;
 	grid[y][x] = 'V';
-	flood(grid, y - 1, x, height, width);
-	flood(grid, y + 1, x, height, width);
-	flood(grid, y, x - 1, height, width);
-	flood(grid, y, x + 1, height, width);
+	flood(grid, y - 1, x, map);
+	flood(grid, y + 1, x, map);
+	flood(grid, y, x - 1, map);
+	flood(grid, y, x + 1, map);
 }
 
 static int	free_tgrid(char **tgrid, int height)
@@ -84,7 +85,7 @@ int	check_path(t_map *map)
 		return (0);
 	if (!find_player(map))
 		return (free_tgrid(tgrid, map->height));
-	flood(tgrid, map->py, map->px, map->height, map->width);
+	flood(tgrid, map->py, map->px, map);
 	ok_exit = 0;
 	y = 0;
 	while (y < map->height)

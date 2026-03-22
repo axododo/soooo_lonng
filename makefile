@@ -12,7 +12,9 @@ SRC = map2.c \
 			libft.c \
 			graphic.c \
 			main.c \
-			utils.c
+			utils.c \
+			graphic2.c \
+			check_c.c
 
 OBJ = $(SRC:.c=.o)
 

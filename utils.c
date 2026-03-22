@@ -14,7 +14,7 @@ void	win_screen(t_env *env)
 	env->stwin = 1;
 	mlx_clear_window(env->mlx, env->win, (mlx_color){.rgba = 0x000000FF});
 	mlx_put_image_to_window(env->mlx, env->win, env->img_win, (win_w - img_w)
-			/ 2, (win_h - img_h) / 2);
+		/ 2, (win_h - img_h) / 2);
 }
 
 void	free_map(t_map *map)
@@ -59,4 +59,14 @@ void	move_player(t_env *env, int x, int y)
 	env->move++;
 	ft_printf("move: %i\n", env->move);
 	render_map(env);
+}
+
+size_t	ft_sstrlen(const char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
 }
