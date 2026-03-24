@@ -6,7 +6,7 @@
 /*   By: mguilber <mguilber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 11:47:57 by mguilber          #+#    #+#             */
-/*   Updated: 2026/03/22 13:03:56 by mguilber         ###   ########.fr       */
+/*   Updated: 2026/03/24 14:20:34 by mguilber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	check_chars(t_map *map)
 		x = 0;
 		while (x < map->width - 1)
 		{
-			if(!verif_w(y, x, map))
+			if (!verif_w(y, x, map))
 				return (0);
 			x++;
 		}
