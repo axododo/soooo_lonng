@@ -16,7 +16,7 @@ int	verif_w(int y, int x, t_map *map)
 {
 	int	verif;
 
-	verif = 0;
+	verif = 1;
 	if (y == 0 || y == map->height - 1 || x == 0 || x == map->width - 1)
 		if (map->grid[y][x] != '1')
 			return (verif);
@@ -43,7 +43,7 @@ int	check_chars(t_map *map)
 	int	x;
 	int	verif;
 
-	verif = 0;
+	verif = 1;
 	map->collectable = 0;
 	map->collected = 0;
 	y = 0;
@@ -52,12 +52,13 @@ int	check_chars(t_map *map)
 		x = 0;
 		while (x < map->width - 1)
 		{
-			verif += verif_w(y, x, map);
+			if(!verif_w(y, x, map))
+				return (0);
 			x++;
 		}
 		y++;
 	}
-	if (verif != 2 || map->collectable < 1)
+	if (map->collectable < 1)
 		return (0);
 	return (1);
 }
@@ -69,6 +70,7 @@ int	verif_flood(t_map *map, char **tgrid)
 	int	ok_exit;
 
 	ok_exit = 0;
+	y = 0;
 	while (y < map->height)
 	{
 		x = 0;
