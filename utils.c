@@ -6,7 +6,7 @@
 /*   By: mguilber <mguilber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 11:48:57 by mguilber          #+#    #+#             */
-/*   Updated: 2026/03/24 17:15:56 by mguilber         ###   ########.fr       */
+/*   Updated: 2026/03/24 17:22:19 by mguilber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,8 @@ void	move_player(t_env *env, int x, int y)
 	env->map->grid[env->map->py][env->map->px] = '0';
 	env->map->py = y;
 	env->map->px = x;
-	if (env->map->collected == env->map->collectable){
-			env->map->grid[env->map->ey][env->map->ex] = 'X';	
-		}
+	if (env->map->collected == env->map->collectable)
+		env->map->grid[env->map->ey][env->map->ex] = 'X';
 	render_map(env);
 }
 

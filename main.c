@@ -6,7 +6,7 @@
 /*   By: mguilber <mguilber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 11:48:26 by mguilber          #+#    #+#             */
-/*   Updated: 2026/03/24 17:14:54 by mguilber         ###   ########.fr       */
+/*   Updated: 2026/03/24 17:21:10 by mguilber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	key_hook(int key, void *param)
 		move_player(env, 1, 0);
 	if (key == 4 && env->stwin == 0)
 		move_player(env, -1, 0);
-	
 }
 
 static int	init_map(t_env *env, const char *path)
