@@ -6,7 +6,7 @@
 /*   By: mguilber <mguilber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 11:48:26 by mguilber          #+#    #+#             */
-/*   Updated: 2026/03/22 11:48:27 by mguilber         ###   ########.fr       */
+/*   Updated: 2026/03/24 17:14:54 by mguilber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	key_hook(int key, void *param)
 		move_player(env, 1, 0);
 	if (key == 4 && env->stwin == 0)
 		move_player(env, -1, 0);
+	
 }
 
 static int	init_map(t_env *env, const char *path)
@@ -98,7 +99,7 @@ int32_t	main(int argc, char **argv)
 	info.title = "so_long";
 	info.width = env.map->width * env.tile_w;
 	info.height = env.map->height * env.tile_h;
-	info.is_resizable = 1;
+	info.is_resizable = 0;
 	info.is_fullscreen = 0;
 	if (init_window(&env, &info))
 		return (1);
