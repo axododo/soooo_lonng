@@ -6,11 +6,12 @@
 /*   By: mguilber <mguilber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 11:48:30 by mguilber          #+#    #+#             */
-/*   Updated: 2026/03/22 11:48:31 by mguilber         ###   ########.fr       */
+/*   Updated: 2026/03/25 16:53:14 by mguilber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+#include <stdlib.h>
 
 int	check_extension(const char *path)
 {
@@ -96,6 +97,8 @@ t_map	*load_map(const char *path)
 	map = malloc(sizeof(t_map));
 	if (!map)
 		return (NULL);
+	if (width * 64 > 1980 || height * 64 > 1080)
+		return (free(map), NULL);
 	map->height = height;
 	map->width = width;
 	map->grid = malloc(sizeof(char *) * map->height);

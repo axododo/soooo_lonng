@@ -6,7 +6,7 @@
 /*   By: mguilber <mguilber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 11:48:57 by mguilber          #+#    #+#             */
-/*   Updated: 2026/03/24 17:22:19 by mguilber         ###   ########.fr       */
+/*   Updated: 2026/03/25 16:53:38 by mguilber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ void	free_map(t_map *map)
 
 void	move_player(t_env *env, int x, int y)
 {
-	env->move++;
-	ft_printf("move: %i\n", env->move);
 	x = x + env->map->px;
 	y = y + env->map->py;
 	if (env->map->grid[y][x] == '1')
 		return ;
+	env->move++;
+	ft_printf("move: %i\n", env->move);
 	if (env->map->grid[y][x] == 'C')
 	{
 		env->map->collected++;

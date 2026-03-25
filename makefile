@@ -1,6 +1,6 @@
 NAME = so_long
 CC = cc
-CFLAGS =  -g3 -I$(MLX)/includes
+CFLAGS =  -g3 -I$(MLX)/includes 
 MLX = MLX42/
 PRINTF_DIR = ./printft
 PRINTF = $(PRINTF_DIR)/libftprintf.a

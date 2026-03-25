@@ -6,7 +6,7 @@
 /*   By: mguilber <mguilber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 11:48:26 by mguilber          #+#    #+#             */
-/*   Updated: 2026/03/24 17:21:10 by mguilber         ###   ########.fr       */
+/*   Updated: 2026/03/25 16:51:06 by mguilber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int32_t	main(int argc, char **argv)
 	if (!init_image(&env))
 		return (1);
 	info.title = "so_long";
-	info.width = env.map->width * env.tile_w;
+	info.width = (env.map->width - 1) * env.tile_w;
 	info.height = env.map->height * env.tile_h;
 	info.is_resizable = 0;
 	info.is_fullscreen = 0;

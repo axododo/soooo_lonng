@@ -6,7 +6,7 @@
 /*   By: mguilber <mguilber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 11:47:57 by mguilber          #+#    #+#             */
-/*   Updated: 2026/03/24 14:20:34 by mguilber         ###   ########.fr       */
+/*   Updated: 2026/03/25 16:46:28 by mguilber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int	verif_w(int y, int x, t_map *map)
 	int	verif;
 
 	verif = 1;
-	if (y == 0 || y == map->height - 1 || x == 0 || x == map->width - 1)
+	if (y == 0 || y == map->height - 1 || x == 0 || x == map->width - 2)
 		if (map->grid[y][x] != '1')
-			return (verif);
+			return (0);
 	if (map->grid[y][x] == 'P')
 	{
 		verif++;
@@ -54,6 +54,8 @@ int	check_chars(t_map *map)
 		{
 			if (!verif_w(y, x, map))
 				return (0);
+			if (map->grid[y][x + 1] == '\n')
+				map->grid[y][x + 1] = '\0';
 			x++;
 		}
 		y++;
