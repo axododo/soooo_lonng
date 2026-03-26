@@ -87,8 +87,6 @@ int	free_tgrid(char **tgrid, int height)
 
 int	check_path(t_map *map)
 {
-	int		x;
-	int		y;
 	int		ok;
 	char	**tgrid;
 
@@ -99,7 +97,6 @@ int	check_path(t_map *map)
 		return (free_tgrid(tgrid, map->height));
 	flood(tgrid, map->py, map->px, map);
 	ok = 0;
-	y = 0;
 	ok = verif_flood(map, tgrid);
 	if (!ok)
 		return (0);

@@ -29,7 +29,7 @@ void	win_screen(t_env *env)
 		/ 2, (win_h - img_h) / 2);
 }
 
-void	free_map(t_map *map)
+void	free_map(t_map *map, t_env *env)
 {
 	int	y;
 
@@ -40,6 +40,7 @@ void	free_map(t_map *map)
 		free(map->grid[y++]);
 	free(map->grid);
 	free(map);
+	clean(env);
 }
 
 void	move_player(t_env *env, int x, int y)

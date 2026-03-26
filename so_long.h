@@ -63,7 +63,7 @@ void			window_hook(int event, void *param);
 void			clean(t_env *env);
 void			win_screen(t_env *env);
 void			move_player(t_env *env, int x, int y);
-void			free_map(t_map *map);
+void			free_map(t_map *map, t_env *env);
 void			key_hook(int key, void *param);
 int				check_extension(const char *path);
 int				check_rect(const char *path, int width);

@@ -41,9 +41,7 @@ int	check_chars(t_map *map)
 {
 	int	y;
 	int	x;
-	int	verif;
 
-	verif = 1;
 	map->collectable = 0;
 	map->collected = 0;
 	y = 0;

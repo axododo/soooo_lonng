@@ -71,8 +71,7 @@ void	window_hook(int event, void *param)
 	env = (t_env *)param;
 	if (event == 0)
 	{
-		free_map(env->map);
-		clean(env);
+		free_map(env->map, env);
 		mlx_destroy_window(env->mlx, env->win);
 		mlx_destroy_context(env->mlx);
 		exit(0);
