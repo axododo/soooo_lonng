@@ -6,7 +6,7 @@
 /*   By: mguilber <mguilber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 11:48:26 by mguilber          #+#    #+#             */
-/*   Updated: 2026/03/25 16:51:06 by mguilber         ###   ########.fr       */
+/*   Updated: 2026/03/27 17:39:59 by mguilber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,9 @@ void	key_hook(int key, void *param)
 	env = (t_env *)param;
 	if (key == 41)
 	{
+		if (env)
+			clean(env);
 		free_map(env->map);
-		clean(env);
-		mlx_destroy_window(env->mlx, env->win);
-		mlx_destroy_context(env->mlx);
 		exit(0);
 	}
 	if (key == 26 && env->stwin == 0)

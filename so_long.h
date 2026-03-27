@@ -6,7 +6,7 @@
 /*   By: mguilber <mguilber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 11:48:49 by mguilber          #+#    #+#             */
-/*   Updated: 2026/03/22 13:08:36 by mguilber         ###   ########.fr       */
+/*   Updated: 2026/03/27 17:46:16 by mguilber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_env
 	mlx_context	mlx;
 	mlx_window	win;
 	t_map		*map;
-	mlx_image	tile;
+	// mlx_image	tile;
 	int			tile_w;
 	int			tile_h;
 	mlx_image	img_wall;

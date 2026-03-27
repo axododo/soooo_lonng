@@ -6,7 +6,7 @@
 /*   By: mguilber <mguilber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 11:48:06 by mguilber          #+#    #+#             */
-/*   Updated: 2026/03/27 16:45:47 by mguilber         ###   ########.fr       */
+/*   Updated: 2026/03/27 18:04:16 by mguilber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,22 @@ void	window_hook(int event, void *param)
 
 void	clean(t_env *env)
 {
-	mlx_destroy_image(env->mlx, env->img_collect);
-	mlx_destroy_image(env->mlx, env->img_exit);
-	mlx_destroy_image(env->mlx, env->img_floor);
-	mlx_destroy_image(env->mlx, env->img_player);
-	mlx_destroy_image(env->mlx, env->img_wall);
-	mlx_destroy_image(env->mlx, env->img_win);
+	if (!env)
+		return ;
+	if (env->img_collect)
+		mlx_destroy_image(env->mlx, env->img_collect);
+	if (env->img_exit)
+		mlx_destroy_image(env->mlx, env->img_exit);
+	if (env->img_floor)
+		mlx_destroy_image(env->mlx, env->img_floor);
+	if (env->img_player)
+		mlx_destroy_image(env->mlx, env->img_player);
+	if (env->img_wall)
+		mlx_destroy_image(env->mlx, env->img_wall);
+	if (env->img_win)
+		mlx_destroy_image(env->mlx, env->img_win);
+	if (env->win)
+		mlx_destroy_window(env->mlx, env->win);
+	if (env->mlx)
+		mlx_destroy_context(env->mlx);
 }
