@@ -6,7 +6,7 @@
 /*   By: mguilber <mguilber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 11:48:26 by mguilber          #+#    #+#             */
-/*   Updated: 2026/03/27 17:39:59 by mguilber         ###   ########.fr       */
+/*   Updated: 2026/03/27 18:33:22 by mguilber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ void	key_hook(int key, void *param)
 	env = (t_env *)param;
 	if (key == 41)
 	{
-		if (env)
-			clean(env);
+		clean(env);
 		free_map(env->map);
 		exit(0);
 	}
