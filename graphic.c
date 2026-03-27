@@ -55,12 +55,21 @@ int	init_image(t_env *env)
 	h = 16;
 	env->tile_w = w;
 	env->tile_h = h;
-	if (!init_image_walls(env, &w, &h))
+	if (!init_image_walls(env, &w, &h)){
+		mlx_destroy_context(env->mlx);
+		free_map(env->map);
 		return (0);
+	}
 	env->tile_w = w;
 	env->tile_h = h;
 	if (!init_image_chars(env, &w, &h))
+	{
+		 mlx_destroy_image(env->mlx, env->img_wall);
+		 mlx_destroy_image(env->mlx, env->img_floor);
+		 mlx_destroy_context(env->mlx);
+		 free_map(env->map);
 		return (0);
+	}
 	return (1);
 }
 
@@ -71,7 +80,8 @@ void	window_hook(int event, void *param)
 	env = (t_env *)param;
 	if (event == 0)
 	{
-		free_map(env->map, env);
+		free_map(env->map);
+		clean(env);
 		mlx_destroy_window(env->mlx, env->win);
 		mlx_destroy_context(env->mlx);
 		exit(0);

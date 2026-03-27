@@ -19,7 +19,8 @@ void	key_hook(int key, void *param)
 	env = (t_env *)param;
 	if (key == 41)
 	{
-		free_map(env->map, env);
+		free_map(env->map);
+		clean(env);
 		mlx_destroy_window(env->mlx, env->win);
 		mlx_destroy_context(env->mlx);
 		exit(0);
@@ -43,17 +44,17 @@ static int	init_map(t_env *env, const char *path)
 		return (write(2, "Error\nCannot load map\n", 22), 0);
 	if (!check_chars(env->map))
 	{
-		free_map(env->map, env);
+		free_map(env->map);
 		return (write(2, "Error\nInvalid map characters or borders\n", 40), 0);
 	}
 	if (!check_path(env->map))
 	{
-		free_map(env->map, env);
+		free_map(env->map);
 		return (write(2, "Error\nNo valid path in map\n", 27), 0);
 	}
 	if (!find_player(env->map))
 	{
-		free_map(env->map, env);
+		free_map(env->map);
 		return (write(2, "Error\nCannot find player\n", 25), 0);
 	}
 	return (1);
@@ -71,7 +72,8 @@ static int	init_window(t_env *env, mlx_window_create_info *info)
 	mlx_on_event(env->mlx, env->win, MLX_KEYDOWN, key_hook, env);
 	mlx_on_event(env->mlx, env->win, MLX_WINDOW_EVENT, window_hook, env);
 	mlx_loop(env->mlx);
-	free_map(env->map, env);
+	free_map(env->map);
+	clean(env);
 	mlx_destroy_window(env->mlx, env->win);
 	mlx_destroy_context(env->mlx);
 	return (0);

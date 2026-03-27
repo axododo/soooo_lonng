@@ -75,6 +75,9 @@ int	fill_grid(t_map *map, int fd)
 	int		i;
 
 	i = 0;
+	while (i < map->height)
+		map->grid[i++] = NULL;
+	i = 0;
 	line = get_next_line(fd);
 	while (line && i < map->height)
 	{
