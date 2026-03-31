@@ -6,7 +6,7 @@
 /*   By: mguilber <mguilber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/27 16:44:14 by mguilber          #+#    #+#             */
-/*   Updated: 2026/03/27 16:44:15 by mguilber         ###   ########.fr       */
+/*   Updated: 2026/03/31 18:01:13 by mguilber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,19 +72,3 @@ int	ft_printf(const char *format, ...)
 	va_end(args);
 	return (size);
 }
-/*
-int	main(int argc, char const *argv[]) {
-	printf("len_>( %i ) \n", ft_printf("%s %i ", "hello", 15));
-	printf("trueLen_>( %i ) ", printf("%s %i ", "hello", 15));
-
-	return (0);
-}
-
-*/
-/*
-int	main(void) {
-  printf("%i\n", ft_printf(" %p %p ", 0, 0));
-  write(1, "\n", 1);
-  printf("%i\n", printf(" %p %p ", 0, 0));
-
-}*/

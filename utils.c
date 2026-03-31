@@ -6,7 +6,7 @@
 /*   By: mguilber <mguilber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 11:48:57 by mguilber          #+#    #+#             */
-/*   Updated: 2026/03/27 17:39:34 by mguilber         ###   ########.fr       */
+/*   Updated: 2026/03/31 17:29:43 by mguilber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,7 @@ void	move_player(t_env *env, int x, int y)
 	env->move++;
 	ft_printf("move: %i\n", env->move);
 	if (env->map->grid[y][x] == 'C')
-	{
 		env->map->collected++;
-	}
 	if (env->map->grid[y][x] == 'X')
 	{
 		win_screen(env);

@@ -6,12 +6,11 @@
 /*   By: mguilber <mguilber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 11:47:57 by mguilber          #+#    #+#             */
-/*   Updated: 2026/03/29 19:58:13 by mguilber         ###   ########.fr       */
+/*   Updated: 2026/03/31 17:54:05 by mguilber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include <stdio.h>
 
 static int	verif_w(int y, int x, t_map *map)
 {
@@ -19,9 +18,7 @@ static int	verif_w(int y, int x, t_map *map)
 		if (map->grid[y][x] != '1')
 			return (0);
 	if (map->grid[y][x] == 'P')
-	{
 		map->p++;
-	}
 	else if (map->grid[y][x] == 'E')
 	{
 		map->ex = x;

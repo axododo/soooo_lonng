@@ -6,12 +6,11 @@
 /*   By: mguilber <mguilber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 13:24:32 by mguilber          #+#    #+#             */
-/*   Updated: 2025/11/27 16:20:18 by mguilber         ###   ########.fr       */
+/*   Updated: 2026/03/31 18:01:36 by mguilber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include "../so_long.h"
 
 static char	*join_and_free(char *s1, char *s2)
 {

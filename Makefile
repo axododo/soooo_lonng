@@ -1,6 +1,6 @@
 NAME = so_long
 CC = cc
-CFLAGS =  -Werror -Wall -Wextra -g3 -I$(MLX)/includes 
+CFLAGS = -Werror -Wall -Wextra -g3 -I$(MLX)/includes 
 MLX = MLX42/
 PRINTF_DIR = ./printft
 PRINTF = $(PRINTF_DIR)/libftprintf.a
@@ -20,10 +20,18 @@ OBJ = $(SRC:.c=.o)
 
 LDFLAGS = $(MLX)libmlx.so -lSDL2 -lm
 
+MLX_REPO    = https://github.com/seekrs/MacroLibX.git
+MLX_VERSION = f1e89ca
+
+$(MLX_SO) :
+	@git clone $(MLX_REPO) $(MLX_DIR)
+	@git -C $(MLX_DIR) checkout $(MLX_VERSION) 2>/dev/null
+	@make -C $(MLX_DIR) -j4
+
 all: $(PRINTF) $(NAME)
 
-$(NAME): $(MLX)libmlx.so $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(MLX)libmlx.so $(PRINTF) $(LDFLAGS) -o $(NAME)
+$(NAME): $(MLX_SO) $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) $(MLX_SO) $(PRINTF) $(LDFLAGS) -o $(NAME)
 
 $(MLX):
 	@make -C MLX42

@@ -6,7 +6,7 @@
 /*   By: mguilber <mguilber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 11:48:06 by mguilber          #+#    #+#             */
-/*   Updated: 2026/03/27 18:33:31 by mguilber         ###   ########.fr       */
+/*   Updated: 2026/03/31 18:01:15 by mguilber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,24 +53,12 @@ int	init_image(t_env *env)
 
 	w = 16;
 	h = 16;
-	env->tile_w = w;
-	env->tile_h = h;
 	if (!init_image_walls(env, &w, &h))
-	{
-		mlx_destroy_context(env->mlx);
-		free_map(env->map);
 		return (0);
-	}
 	env->tile_w = w;
 	env->tile_h = h;
 	if (!init_image_chars(env, &w, &h))
-	{
-		mlx_destroy_image(env->mlx, env->img_wall);
-		mlx_destroy_image(env->mlx, env->img_floor);
-		mlx_destroy_context(env->mlx);
-		free_map(env->map);
 		return (0);
-	}
 	return (1);
 }
 
@@ -81,22 +69,29 @@ void	window_hook(int event, void *param)
 	env = (t_env *)param;
 	if (event == 0)
 	{
-		free_map(env->map);
 		clean(env);
-		mlx_destroy_window(env->mlx, env->win);
-		mlx_destroy_context(env->mlx);
 		exit(0);
 	}
 }
 
 void	clean(t_env *env)
 {
-	mlx_destroy_image(env->mlx, env->img_collect);
-	mlx_destroy_image(env->mlx, env->img_exit);
-	mlx_destroy_image(env->mlx, env->img_floor);
-	mlx_destroy_image(env->mlx, env->img_player);
-	mlx_destroy_image(env->mlx, env->img_wall);
-	mlx_destroy_image(env->mlx, env->img_win);
-	mlx_destroy_window(env->mlx, env->win);
-	mlx_destroy_context(env->mlx);
+	if (env->img_collect)
+		mlx_destroy_image(env->mlx, env->img_collect);
+	if (env->img_exit)
+		mlx_destroy_image(env->mlx, env->img_exit);
+	if (env->img_floor)
+		mlx_destroy_image(env->mlx, env->img_floor);
+	if (env->img_player)
+		mlx_destroy_image(env->mlx, env->img_player);
+	if (env->img_wall)
+		mlx_destroy_image(env->mlx, env->img_wall);
+	if (env->img_win)
+		mlx_destroy_image(env->mlx, env->img_win);
+	if (env->win)
+		mlx_destroy_window(env->mlx, env->win);
+	if (env->mlx)
+		mlx_destroy_context(env->mlx);
+	if (env->map)
+		free_map(env->map);
 }

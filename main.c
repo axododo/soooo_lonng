@@ -6,7 +6,7 @@
 /*   By: mguilber <mguilber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 11:48:26 by mguilber          #+#    #+#             */
-/*   Updated: 2026/03/27 18:33:22 by mguilber         ###   ########.fr       */
+/*   Updated: 2026/03/31 18:00:03 by mguilber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	key_hook(int key, void *param)
 	if (key == 41)
 	{
 		clean(env);
-		free_map(env->map);
 		exit(0);
 	}
 	if (key == 26 && env->stwin == 0)
@@ -70,11 +69,21 @@ static int	init_window(t_env *env, mlx_window_create_info *info)
 	mlx_on_event(env->mlx, env->win, MLX_KEYDOWN, key_hook, env);
 	mlx_on_event(env->mlx, env->win, MLX_WINDOW_EVENT, window_hook, env);
 	mlx_loop(env->mlx);
-	free_map(env->map);
 	clean(env);
-	mlx_destroy_window(env->mlx, env->win);
-	mlx_destroy_context(env->mlx);
 	return (0);
+}
+
+void	init_env(t_env *env)
+{
+	env->img_collect = NULL;
+	env->img_exit = NULL;
+	env->img_floor = NULL;
+	env->img_player = NULL;
+	env->img_wall = NULL;
+	env->img_win = NULL;
+	env->win = NULL;
+	env->stwin = 0;
+	env->move = 0;
 }
 
 int32_t	main(int argc, char **argv)
@@ -84,15 +93,15 @@ int32_t	main(int argc, char **argv)
 
 	if (argc != 2)
 		return (write(2, "Error\nUsage: ./so_long <map.ber>\n", 33), 1);
-	env.stwin = 0;
-	env.move = 0;
+	init_env(&env);
 	if (!init_map(&env, argv[1]))
 		return (1);
 	env.mlx = mlx_init();
-	if (!env.mlx)
-		return (write(2, "Error\nmlx_init failed\n", 22), 1);
-	if (!init_image(&env))
+	if (!env.mlx || !init_image(&env))
+	{
+		clean(&env);
 		return (1);
+	}
 	info.title = "so_long";
 	info.width = (env.map->width - 1) * env.tile_w;
 	info.height = env.map->height * env.tile_h;
